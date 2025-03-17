@@ -20,7 +20,17 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
+
+    /* Paths */
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@C/*": ["./components/*"],
+      "@M/*": ["./models/*"],
+      "@VM/*": ["./view-model/*"],
+      "@V/*": ["./views/*"]
+    }
   },
-  "include": ["src"]
+  "include": ["src", "components", "models", "view-model", "views"]
 }

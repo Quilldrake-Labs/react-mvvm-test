@@ -1,35 +1,51 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from "react";
+import useTaskViewModel from "@VM/TaskViewModel";
+import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [taskInput, setTaskInput] = useState<string>("");
+  const [tasks, setTasks] = useState<string[]>([]);
+  const { addTask, getAllTasks } = useTaskViewModel();
+  const handleAddTask = () => {
+    addTask(taskInput);
+    setTaskInput("");
+    setTasks(getAllTasks());
+  };
+
+  useEffect(() => {
+    setTasks(getAllTasks());
+  }, [getAllTasks]);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="main-container">
+      <h1>Task Manager</h1>
+      <div className="main text-input">
+        <input
+          type="text"
+          placeholder="Add a task"
+          value={taskInput}
+          onChange={(e) => setTaskInput(e.target.value)}
+        />
+        <button onClick={handleAddTask}>Add Task</button>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+      <div className="main task-wrapper">
+        <h2>Tasks</h2>
+        <hr />
+        {tasks.length !== 0 && (
+          <ul className="task-item">
+            {tasks.map((task, index) => (
+              <li className="text" key={index}>
+                {task}
+              </li>
+            ))}
+          </ul>
+        )}
+        <div className="list-not-found">
+          {tasks.length === 0 && <p className="text">There is no task item</p>}
+        </div>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </div>
+  );
 }
 
-export default App
+export default App;
